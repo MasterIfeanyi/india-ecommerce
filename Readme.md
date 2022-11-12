@@ -39,7 +39,9 @@ npm start
 
 ```
 
-## Problem
+## Problem 1
+
+**SSH Key Gen**
 
 ```git shell
 
@@ -54,15 +56,57 @@ and the repository exists.
 
 ```
 
-## solution
+**solution**
 
-I solved my problem by running
+[I solved my problem by running the following command in Git Bash](https://stackoverflow.com/a/69960780/17171424)
 
 ```git 
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 ```
 in command prompt. This command will add authenticity to your known_hosts.
 
+
+## Problem 2
+
+**Nodemon**
+
+```git shell
+nodemon : File C:\Users\IFEANYI\AppData\Roaming\npm\nodemon.ps1 cannot be 
+loaded because running scripts is disabled on this system. For more 
+```
+
+**solution**
+
+[I solved this problem by running Windows Powershell as an administrator](https://stackoverflow.com/a/65488218/17171424)
+
+1. Open PowerShell (Run As Administrator)
+
+2. Check the current execution policy using this command
+
+
+```
+    Get-ExecutionPolicy
+    # You should get 'Restricted'
+```
+
+3. Run this command to make it 'Unrestricted'
+
+```
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+```
+
+4. Check again whether execution policy changed by running this command
+
+```
+    Get-ExecutionPolicy
+    # You should get 'Unrestricted'
+```
+
+5. Now try to run nodemon on your project
+
+```
+nodemon 'filename.js'
+```
 
 ## Tech Stack
 

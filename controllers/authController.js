@@ -16,7 +16,7 @@ const generateJWT = (username, roles, id) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "2m" }
+        { expiresIn: "10m" }
     )
 }
 
@@ -50,7 +50,7 @@ const handleLogin = async (req, res) => {
                     }
                 },
                 process.env.REFRESH_TOKEN_SECRET,
-                {expiresIn: "10m"}
+                {expiresIn: "30m"}
             )
 
             // Saving refreshToken with current user
@@ -59,7 +59,7 @@ const handleLogin = async (req, res) => {
             console.log(result);
 
             // saving refresh token in a cookie
-            res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: "None", maxAge: 24 * 60 * 60 * 1000 });
+            res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
             res.json({ roles, accessToken });
 

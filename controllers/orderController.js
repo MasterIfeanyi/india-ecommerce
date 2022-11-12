@@ -3,9 +3,21 @@ const Product = require("../models/Product");Product
 const User = require("../models/User");
 
 const getOrders = async (req, res) => {
-    const result = await Order.find({ id: req.id });
-    if (!result) return res.status(200).json({ "message": "No results found" });
-    res.status(200).json(result);
+
+    let {page, limit } = req.query;
+
+    if (!page) page = 1;
+    if (!limit) limit = 10;
+
+    let skip = (page - 1) * 10;
+    
+    try {
+        const result = await Order.find().skip(skip).limit(limit);
+        if (!result) return res.status(200).json({ "message": "No results found" });
+        res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json({"msg": `${error.message}`})
+    }
 }
 
 //create an order
@@ -37,4 +49,14 @@ const createOrder = async (req, res) => {
     }
 }
 
-module.exports = { getOrders, createOrder }
+const getUserOrders = async (req, res) => {
+    try{
+        const result = await Order.find({ user: req.id });
+        if (!result) return res.status(200).json({ "message": "No results found" });
+        res.status(200).json(result);
+    } catch (err) {
+        return res.status(500).json({"msg": `${error.message}`})
+    }
+}
+
+module.exports = { getOrders, createOrder, getUserOrders }

@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const { json } = require("express");
+const colors = require("colors");
 const connectDB = require("./config/dbConn")
 const mongoose = require("mongoose");
-const colors = require("colors");
 require("dotenv").config();
 const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
@@ -39,9 +39,9 @@ app.use(cookieParser());
 
 app.use("/register", require("./routes/register"));
 app.use("/login", require("./routes/login"));
-app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 app.use("/products", require("./routes/api/products"));
+app.use("/refresh", require("./routes/refresh"));
 app.use(verifyJWT);
 app.use("/order", require("./routes/api/order"));
 app.use("/history", require("./routes/api/transaction"));

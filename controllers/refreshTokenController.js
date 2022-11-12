@@ -5,7 +5,9 @@ require("dotenv").config();
 const handleRefreshToken = async (req, res) => {
     // check for the presence of a cookie
     const cookies = req.cookies;
+    console.log(cookies);
     if (!cookies?.jwt) return res.sendStatus(401); //unAuthorized
+    console.log("reached here");
     const refreshToken = cookies.jwt;
 
     // find the user using refresh token

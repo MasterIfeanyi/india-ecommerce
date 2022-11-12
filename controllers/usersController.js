@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Order = require("../models/Order");
 
 
 const getUsers = async (req, res) => {
@@ -75,4 +76,31 @@ const deleteUser = async (req, res) => {
     }
 }
 
-module.exports = {getUsers, getAUser, deleteUser, updateUser}
+const getUserOrders = async (req, res) => {
+    if (!req?.params) return res.status(400).json({ "message": "parameters are required" })
+    const {id} = req.params
+
+    try{
+        const user = await User.findOne({ _id: id }).exec();
+
+        if (!user) {
+            return res.status(400).json({ "message": `No User matches an ID ${id}.` });
+        }
+
+        
+
+        // make sure the id matches the user id
+        if (id !== user.id) return res.status(401).json({ "message": "Not the same product" });
+        
+        // find the user orders to send to the front-end
+        const result = await Order.find({ user: req.id });
+        if (!result) return res.status(200).json({ "message": "No results found" });
+        res.status(201).json(result);
+
+    } catch (error) {
+        return res.status(500).json({"msg": `${error.message}`})
+    }
+}
+
+
+module.exports = {getUsers, getAUser, deleteUser, updateUser, getUserOrders}
